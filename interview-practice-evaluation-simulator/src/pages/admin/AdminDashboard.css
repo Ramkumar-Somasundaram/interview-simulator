@@ -1,0 +1,165 @@
+/* =========================================================
+   GLOBAL VARIABLES
+   ========================================================= */
+:root {
+  --accent: #3b82f6;
+  --accent-soft: rgba(59, 130, 246, 0.2);
+  --bg-soft: #f6f9ff;
+  --border-soft: #eef0f3;
+  --text-muted: #6b7280;
+  --card-radius: 16px;
+}
+
+/* =========================================================
+   BASE RESET FOR DASHBOARD
+   ========================================================= */
+.dashboard-hero-card,
+.metric-card {
+  box-sizing: border-box;
+  will-change: transform, box-shadow, background-position;
+}
+
+/* =========================================================
+   HERO / HEADER CARD
+   ========================================================= */
+.dashboard-hero-card {
+  position: relative;
+  padding: 28px;
+  border-radius: var(--card-radius);
+  border-left: 4px solid var(--accent);
+  background: linear-gradient(
+    120deg,
+    #ffffff,
+    var(--bg-soft),
+    #ffffff
+  );
+  background-size: 200% 200%;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  animation: gradientDrift 14s ease infinite;
+}
+
+/* Badge */
+.dashboard-hero-card .badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+/* Title */
+.page-title {
+  font-weight: 700;
+  margin-top: 10px;
+  margin-bottom: 6px;
+}
+
+/* =========================================================
+   METRIC CARDS (CORE)
+   ========================================================= */
+.metric-card {
+  position: relative;
+  height: 100%;
+  padding: 24px;
+  background: #ffffff;
+  border-radius: var(--card-radius);
+  border: 1px solid var(--border-soft);
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+  animation: floatSoft 8s ease-in-out infinite;
+}
+
+/* Titles */
+.metric-card h2 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+/* Text */
+.metric-card p {
+  margin: 0;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+/* =========================================================
+   PRIMARY CARD EMPHASIS (Domains)
+   ========================================================= */
+.metric-card:first-child {
+  border-color: var(--accent);
+  box-shadow:
+    0 10px 28px rgba(59, 130, 246, 0.18);
+  animation:
+    floatSoft 6s ease-in-out infinite,
+    glowPulse 4s ease-in-out infinite;
+}
+
+/* =========================================================
+   HOVER INTERACTION
+   ========================================================= */
+.metric-card:hover {
+  transform: translateY(-8px) scale(1.015);
+  box-shadow:
+    0 20px 36px rgba(0, 0, 0, 0.1);
+  border-color: var(--accent);
+}
+
+/* Active click feedback */
+.metric-card:active {
+  transform: scale(0.98);
+}
+
+/* =========================================================
+   CONTINUOUS ANIMATIONS
+   ========================================================= */
+@keyframes floatSoft {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes glowPulse {
+  0% {
+    box-shadow:
+      0 8px 22px rgba(59, 130, 246, 0.16);
+  }
+  50% {
+    box-shadow:
+      0 16px 34px rgba(59, 130, 246, 0.28);
+  }
+  100% {
+    box-shadow:
+      0 8px 22px rgba(59, 130, 246, 0.16);
+  }
+}
+
+@keyframes gradientDrift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* =========================================================
+   ACCESSIBILITY — REDUCED MOTION
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

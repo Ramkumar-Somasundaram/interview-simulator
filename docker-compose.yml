@@ -1,0 +1,61 @@
+ services:
+  mysql:
+    image: mysql:8.0
+    container_name: interview_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: interview_simulator
+      
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: apppass
+
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot123"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+ 
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: interview_backend
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: interview_simulator
+      DB_USERNAME: appuser
+      DB_PASSWORD: apppass
+      JWT_SECRET: Z9fM0J9pP+9VScK7WkYF0A5Ql4nX8O5p9Wc6S2eG8zM=
+      JWT_EXPIRATION: 86400000
+      ADMIN_EMAIL: admin@gmail.com
+      ADMIN_PASSWORD: Admin@1234
+      CORS_ALLOWED_ORIGINS: http://localhost:3000
+    ports:
+      - "8080:8080"
+ 
+  frontend:
+    build:
+      context: ./interview-practice-evaluation-simulator
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_API_BASE_URL: http://localhost:8080
+    container_name: interview_frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+ 
+ volumes:
+  mysql_data:
+ 
